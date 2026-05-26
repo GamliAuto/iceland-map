@@ -340,8 +340,8 @@ export default function Home() {
             }
           </Geographies>
 
-          {/* Glacier outlines */}
-          <Geographies geography={GLACIERS_GEO}>
+          {/* Glacier outlines — temporarily disabled */}
+          {/* <Geographies geography={GLACIERS_GEO}>
             {({ geographies }: { geographies: any[] }) =>
               geographies.map((geo: any) => (
                 <Geography
@@ -358,10 +358,10 @@ export default function Home() {
                 />
               ))
             }
-          </Geographies>
+          </Geographies> */}
 
-          {/* River paths */}
-          <Geographies geography={RIVERS_GEO}>
+          {/* River paths — temporarily disabled */}
+          {/* <Geographies geography={RIVERS_GEO}>
             {({ geographies }: { geographies: any[] }) =>
               geographies.map((geo: any) => (
                 <Geography
@@ -378,7 +378,7 @@ export default function Home() {
                 />
               ))
             }
-          </Geographies>
+          </Geographies> */}
 
           {/* Attraction markers */}
           {ATTRACTIONS.map((attraction) => (
