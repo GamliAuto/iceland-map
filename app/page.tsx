@@ -339,8 +339,8 @@ export default function Home() {
             }
           </Geographies>
 
-          {/* Glacier outlines — temporarily disabled */}
-          {/* <Geographies geography={GLACIERS_GEO}>
+          {/* Glacier outlines */}
+          <Geographies geography={GLACIERS_GEO}>
             {({ geographies }: { geographies: any[] }) =>
               geographies.map((geo: any) => (
                 <Geography
@@ -357,7 +357,7 @@ export default function Home() {
                 />
               ))
             }
-          </Geographies> */}
+          </Geographies>
 
           {/* River paths — temporarily disabled */}
           {/* <Geographies geography={RIVERS_GEO}>
