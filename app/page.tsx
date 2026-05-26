@@ -6,7 +6,8 @@ import { ComposableMap, Geographies, Geography, Marker } from "react-simple-maps
 const COUNTRY_URL = "https://cdn.jsdelivr.net/npm/world-atlas@2/countries-50m.json";
 
 // Simplified outlines for major Iceland glaciers
-// Coordinates wound CCW (counter-clockwise) — required by D3's spherical polygon rule
+// Coordinates wound CCW — required by D3's spherical polygon rule.
+// Positions calibrated against real glacier extents.
 const GLACIERS_GEO = {
   type: "FeatureCollection" as const,
   features: [
@@ -15,10 +16,23 @@ const GLACIERS_GEO = {
       properties: { name: "Vatnajökull" },
       geometry: {
         type: "Polygon" as const,
+        // Europe's largest glacier — SE-central Iceland, ~8100 km²
         coordinates: [[
-          [-18.3, 64.15], [-18.7, 64.35], [-18.5, 64.65], [-17.5, 64.93],
-          [-16.0, 64.93], [-15.1, 64.68], [-15.0, 64.3], [-15.8, 63.98],
-          [-17.0, 63.92], [-18.3, 64.15],
+          [-18.0, 64.0],
+          [-18.15, 64.3],
+          [-18.1, 64.6],
+          [-17.7, 64.85],
+          [-16.8, 64.93],
+          [-16.0, 64.95],
+          [-15.2, 64.88],
+          [-14.7, 64.6],
+          [-14.55, 64.3],
+          [-14.8, 64.0],
+          [-15.5, 63.9],
+          [-16.0, 63.87],
+          [-17.0, 63.88],
+          [-17.7, 63.97],
+          [-18.0, 64.0],
         ]],
       },
     },
@@ -27,9 +41,17 @@ const GLACIERS_GEO = {
       properties: { name: "Langjökull" },
       geometry: {
         type: "Polygon" as const,
+        // Second largest — central Iceland, elongated N-S
         coordinates: [[
-          [-20.5, 64.55], [-20.6, 64.72], [-20.4, 64.92], [-19.7, 64.95],
-          [-19.4, 64.75], [-19.5, 64.5], [-20.5, 64.55],
+          [-20.3, 64.55],
+          [-20.38, 64.75],
+          [-20.25, 64.96],
+          [-20.0, 64.98],
+          [-19.72, 64.9],
+          [-19.65, 64.68],
+          [-19.7, 64.55],
+          [-19.95, 64.5],
+          [-20.3, 64.55],
         ]],
       },
     },
@@ -38,9 +60,17 @@ const GLACIERS_GEO = {
       properties: { name: "Hofsjökull" },
       geometry: {
         type: "Polygon" as const,
+        // Roughly circular — NE of Langjökull
         coordinates: [[
-          [-18.85, 64.8], [-18.9, 65.05], [-18.3, 65.22], [-17.9, 65.05],
-          [-18.1, 64.78], [-18.85, 64.8],
+          [-18.75, 64.84],
+          [-18.82, 65.0],
+          [-18.55, 65.17],
+          [-18.22, 65.15],
+          [-18.02, 65.0],
+          [-18.05, 64.84],
+          [-18.25, 64.76],
+          [-18.55, 64.75],
+          [-18.75, 64.84],
         ]],
       },
     },
@@ -49,9 +79,17 @@ const GLACIERS_GEO = {
       properties: { name: "Mýrdalsjökull" },
       geometry: {
         type: "Polygon" as const,
+        // S Iceland, above Vík
         coordinates: [[
-          [-19.75, 63.55], [-19.82, 63.75], [-19.3, 63.87], [-18.88, 63.75],
-          [-19.0, 63.52], [-19.75, 63.55],
+          [-19.62, 63.57],
+          [-19.65, 63.72],
+          [-19.45, 63.84],
+          [-19.15, 63.85],
+          [-18.95, 63.76],
+          [-18.85, 63.61],
+          [-19.05, 63.52],
+          [-19.4, 63.52],
+          [-19.62, 63.57],
         ]],
       },
     },
@@ -60,8 +98,15 @@ const GLACIERS_GEO = {
       properties: { name: "Eyjafjallajökull" },
       geometry: {
         type: "Polygon" as const,
+        // Small glacier just W of Mýrdalsjökull
         coordinates: [[
-          [-19.7, 63.59], [-19.7, 63.72], [-19.35, 63.7], [-19.38, 63.58], [-19.7, 63.59],
+          [-19.8, 63.59],
+          [-19.82, 63.68],
+          [-19.65, 63.73],
+          [-19.52, 63.68],
+          [-19.5, 63.59],
+          [-19.65, 63.56],
+          [-19.8, 63.59],
         ]],
       },
     },
@@ -70,69 +115,22 @@ const GLACIERS_GEO = {
       properties: { name: "Snæfellsjökull" },
       geometry: {
         type: "Polygon" as const,
+        // Tip of Snæfellsnes peninsula
         coordinates: [[
-          [-23.9, 64.77], [-23.93, 64.83], [-23.75, 64.89], [-23.52, 64.86],
-          [-23.55, 64.77], [-23.9, 64.77],
+          [-23.93, 64.77],
+          [-23.95, 64.86],
+          [-23.78, 64.9],
+          [-23.6, 64.88],
+          [-23.55, 64.79],
+          [-23.65, 64.74],
+          [-23.82, 64.74],
+          [-23.93, 64.77],
         ]],
       },
     },
   ],
 };
 
-// Simplified paths for major Iceland rivers
-const RIVERS_GEO = {
-  type: "FeatureCollection" as const,
-  features: [
-    {
-      type: "Feature" as const,
-      properties: { name: "Þjórsá" },
-      geometry: {
-        type: "LineString" as const,
-        coordinates: [[-18.8, 64.5], [-19.0, 64.35], [-19.4, 64.15], [-19.9, 64.0], [-20.2, 63.83]],
-      },
-    },
-    {
-      type: "Feature" as const,
-      properties: { name: "Hvítá" },
-      geometry: {
-        type: "LineString" as const,
-        coordinates: [[-20.2, 64.35], [-20.4, 64.2], [-20.65, 64.05], [-20.75, 63.9]],
-      },
-    },
-    {
-      type: "Feature" as const,
-      properties: { name: "Jökulsá á Fjöllum" },
-      geometry: {
-        type: "LineString" as const,
-        coordinates: [[-16.5, 64.7], [-16.45, 65.0], [-16.38, 65.4], [-16.35, 65.8], [-16.2, 66.05]],
-      },
-    },
-    {
-      type: "Feature" as const,
-      properties: { name: "Skjálfandafljót" },
-      geometry: {
-        type: "LineString" as const,
-        coordinates: [[-18.3, 65.0], [-18.0, 65.35], [-17.6, 65.7], [-17.35, 65.95]],
-      },
-    },
-    {
-      type: "Feature" as const,
-      properties: { name: "Markarfljót" },
-      geometry: {
-        type: "LineString" as const,
-        coordinates: [[-18.5, 63.92], [-18.9, 63.82], [-19.5, 63.7], [-20.0, 63.62]],
-      },
-    },
-    {
-      type: "Feature" as const,
-      properties: { name: "Öxará" },
-      geometry: {
-        type: "LineString" as const,
-        coordinates: [[-21.15, 64.42], [-21.1, 64.35], [-21.1, 64.25]],
-      },
-    },
-  ],
-};
 
 // Wikipedia article titles for fetching real attraction photos
 const WIKI_TITLES: Record<string, string> = {
@@ -438,10 +436,6 @@ export default function Home() {
           <span className="flex items-center gap-1.5">
             <span className="inline-block w-4 h-2 rounded-sm bg-blue-200/80" />
             Glaciers
-          </span>
-          <span className="flex items-center gap-1.5">
-            <span className="inline-block w-4 border-t border-blue-400" />
-            Rivers
           </span>
         </div>
       </div>
