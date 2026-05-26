@@ -296,7 +296,7 @@ export default function Home() {
   })();
 
   return (
-    <main className="min-h-screen bg-[#0d1b2a] text-white flex flex-col select-none">
+    <main className="h-screen bg-[#0d1b2a] text-white flex flex-col overflow-hidden select-none">
       <header className="text-center py-5 px-4 flex-shrink-0">
         <h1 className="text-3xl font-bold tracking-tight">Iceland Explorer</h1>
         <p className="text-slate-400 mt-1 text-sm">
@@ -304,11 +304,10 @@ export default function Home() {
         </p>
       </header>
 
-      {/* Aspect-ratio wrapper keeps the map fully visible at all screen widths */}
+      {/* flex-1 min-h-0 constrains to remaining viewport height; SVG preserveAspectRatio fits within it */}
       <div
         ref={containerRef}
-        className="relative w-full"
-        style={{ aspectRatio: "8 / 5" }}
+        className="relative flex-1 min-h-0"
         onMouseMove={handleMouseMove}
       >
         <ComposableMap
